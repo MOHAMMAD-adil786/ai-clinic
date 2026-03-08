@@ -8,7 +8,7 @@ const SubscriptionPlans = () => {
             </div>
             <div className="card-body">
 
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginTop: '20px' }}>
+                <div className="grid-2" style={{ marginTop: '20px' }}>
 
                     <div className="card" style={{ border: '1px solid var(--border)' }}>
                         <div className="card-header" style={{ borderBottom: '1px solid var(--border)', paddingBottom: '15px' }}>

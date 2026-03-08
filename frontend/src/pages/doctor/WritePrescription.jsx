@@ -136,52 +136,60 @@ const WritePrescription = () => {
                         </div>
 
                         <div style={{ background: 'var(--bg)', padding: '16px', borderRadius: 'var(--radius)', border: '1px solid var(--border)', marginBottom: '24px' }}>
-                            <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1.5fr 1fr 40px', gap: '12px', marginBottom: '8px', color: 'var(--text-secondary)', fontSize: '0.75rem', fontWeight: '600', textTransform: 'uppercase' }}>
+                            <div className="medicine-row-grid medicine-grid-labels" style={{ marginBottom: '8px', color: 'var(--text-secondary)', fontSize: '0.75rem', fontWeight: '600', textTransform: 'uppercase' }}>
                                 <div>Medicine Name</div>
-                                <div>Dosage (e.g., 500mg)</div>
+                                <div>Dosage</div>
                                 <div>Frequency</div>
                                 <div>Duration</div>
                                 <div></div>
                             </div>
 
                             {medicines.map((med, index) => (
-                                <div key={index} style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1.5fr 1fr 40px', gap: '12px', marginBottom: '12px' }}>
-                                    <input
-                                        type="text"
-                                        className="form-input"
-                                        value={med.name}
-                                        onChange={e => handleMedChange(index, 'name', e.target.value)}
-                                        placeholder="e.g., Panadol"
-                                        required
-                                    />
-                                    <input
-                                        type="text"
-                                        className="form-input"
-                                        value={med.dosage}
-                                        onChange={e => handleMedChange(index, 'dosage', e.target.value)}
-                                        placeholder="e.g., 500mg"
-                                        required
-                                    />
-                                    <select
-                                        className="form-input"
-                                        value={med.frequency}
-                                        onChange={e => handleMedChange(index, 'frequency', e.target.value)}
-                                    >
-                                        <option value="1-0-1 (Twice daily)">1-0-1 (Twice daily)</option>
-                                        <option value="1-1-1 (Thrice daily)">1-1-1 (Thrice daily)</option>
-                                        <option value="1-0-0 (Morning)">1-0-0 (Morning)</option>
-                                        <option value="0-0-1 (Night)">0-0-1 (Night)</option>
-                                        <option value="SOS (When needed)">SOS (When needed)</option>
-                                        <option value="STAT (Immediately)">STAT (Immediately)</option>
-                                    </select>
-                                    <input
-                                        type="text"
-                                        className="form-input"
-                                        value={med.duration}
-                                        onChange={e => handleMedChange(index, 'duration', e.target.value)}
-                                        placeholder="e.g., 5 days"
-                                        required
-                                    />
+                                <div key={index} className="medicine-row-grid" style={{ marginBottom: '12px' }}>
+                                    <div className="form-group" style={{ margin: 0 }}>
+                                        <input
+                                            type="text"
+                                            className="form-input"
+                                            value={med.name}
+                                            onChange={e => handleMedChange(index, 'name', e.target.value)}
+                                            placeholder="Medicine"
+                                            required
+                                        />
+                                    </div>
+                                    <div className="form-group" style={{ margin: 0 }}>
+                                        <input
+                                            type="text"
+                                            className="form-input"
+                                            value={med.dosage}
+                                            onChange={e => handleMedChange(index, 'dosage', e.target.value)}
+                                            placeholder="Dosage"
+                                            required
+                                        />
+                                    </div>
+                                    <div className="form-group" style={{ margin: 0 }}>
+                                        <select
+                                            className="form-input"
+                                            value={med.frequency}
+                                            onChange={e => handleMedChange(index, 'frequency', e.target.value)}
+                                        >
+                                            <option value="1-0-1 (Twice daily)">1-0-1 (Twice daily)</option>
+                                            <option value="1-1-1 (Thrice daily)">1-1-1 (Thrice daily)</option>
+                                            <option value="1-0-0 (Morning)">1-0-0 (Morning)</option>
+                                            <option value="0-0-1 (Night)">0-0-1 (Night)</option>
+                                            <option value="SOS (When needed)">SOS (When needed)</option>
+                                            <option value="STAT (Immediately)">STAT (Immediately)</option>
+                                        </select>
+                                    </div>
+                                    <div className="form-group" style={{ margin: 0 }}>
+                                        <input
+                                            type="text"
+                                            className="form-input"
+                                            value={med.duration}
+                                            onChange={e => handleMedChange(index, 'duration', e.target.value)}
+                                            placeholder="Duration"
+                                            required
+                                        />
+                                    </div>
                                     <button
                                         type="button"
                                         className="btn-icon"

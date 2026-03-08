@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { FiCalendar, FiFileText, FiClock } from 'react-icons/fi';
+import { FiCalendar, FiFileText, FiClock, FiActivity } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 import api from '../../api/axios';
 import { useAuth } from '../../contexts/AuthContext';
@@ -101,14 +101,14 @@ const PatientDashboard = () => {
                         <h3>Recent Prescriptions</h3>
                         <Link to="/patient/prescriptions" className="btn btn-sm btn-secondary">View All</Link>
                     </div>
-                    <div className="card-body" style={{ padding: 0 }}>
-                        {prescriptions.length === 0 ? (
-                            <div className="empty-state" style={{ padding: '40px 20px' }}>
-                                <div className="empty-icon"><FiFileText /></div>
-                                <h3>No prescriptions</h3>
-                            </div>
-                        ) : (
-                            <div style={{ overflowX: 'auto' }}>
+                    {prescriptions.length === 0 ? (
+                        <div className="empty-state" style={{ padding: '40px 20px' }}>
+                            <div className="empty-icon"><FiFileText /></div>
+                            <h3>No prescriptions</h3>
+                        </div>
+                    ) : (
+                        <>
+                            <div className="desktop-only-table" style={{ overflowX: 'auto' }}>
                                 <table className="data-table">
                                     <tbody>
                                         {prescriptions.slice(0, 3).map(p => (
@@ -136,8 +136,35 @@ const PatientDashboard = () => {
                                     </tbody>
                                 </table>
                             </div>
-                        )}
-                    </div>
+
+                            {/* Mobile Card View */}
+                            <div className="mobile-card-list" style={{ padding: '16px' }}>
+                                {prescriptions.slice(0, 3).map(p => (
+                                    <div key={p._id} className="mobile-card">
+                                        <div className="mobile-card-header">
+                                            <div className="mobile-card-title">Dr. {p.doctorId?.name}</div>
+                                            <div className="badge badge-pro">AI Analyzed</div>
+                                        </div>
+                                        <div className="mobile-card-details">
+                                            <div className="mobile-detail-item">
+                                                <FiFileText className="mobile-detail-icon" />
+                                                <span>{p.diagnosis || 'General Checkup'}</span>
+                                            </div>
+                                            <div className="mobile-detail-item">
+                                                <FiActivity className="mobile-detail-icon" />
+                                                <span>{new Date(p.createdAt).toLocaleDateString()}</span>
+                                            </div>
+                                        </div>
+                                        <div className="mobile-card-actions">
+                                            <Link to={`/prescription/${p._id}`} className="btn btn-primary" style={{ flex: 1, textAlign: 'center' }}>
+                                                View Details
+                                            </Link>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </>
+                    )}
                 </div>
             </div>
         </div>

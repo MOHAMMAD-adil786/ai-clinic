@@ -73,35 +73,63 @@ const ReceptionistDashboard = () => {
                             <p>Schedule a new appointment to see it here.</p>
                         </div>
                     ) : (
-                        <div style={{ overflowX: 'auto' }}>
-                            <table className="data-table">
-                                <thead>
-                                    <tr>
-                                        <th>Time</th>
-                                        <th>Patient</th>
-                                        <th>Doctor</th>
-                                        <th>Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {appointments.map(apt => (
-                                        <tr key={apt._id}>
-                                            <td style={{ fontWeight: '600' }}>{apt.time}</td>
-                                            <td>
-                                                <div style={{ fontWeight: '500' }}>{apt.patientId?.name}</div>
-                                                <div style={{ fontSize: '0.75rem', color: 'var(--text-light)' }}>{apt.patientId?.contact}</div>
-                                            </td>
-                                            <td>Dr. {apt.doctorId?.name}</td>
-                                            <td>
-                                                <span className={`badge badge-${apt.status}`}>
-                                                    {apt.status}
-                                                </span>
-                                            </td>
+                        <>
+                            <div className="desktop-only-table" style={{ overflowX: 'auto' }}>
+                                <table className="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Time</th>
+                                            <th>Patient</th>
+                                            <th>Doctor</th>
+                                            <th>Status</th>
                                         </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
+                                    </thead>
+                                    <tbody>
+                                        {appointments.map(apt => (
+                                            <tr key={apt._id}>
+                                                <td style={{ fontWeight: '600' }}>{apt.time}</td>
+                                                <td>
+                                                    <div style={{ fontWeight: '500' }}>{apt.patientId?.name}</div>
+                                                    <div style={{ fontSize: '0.75rem', color: 'var(--text-light)' }}>{apt.patientId?.contact}</div>
+                                                </td>
+                                                <td>Dr. {apt.doctorId?.name}</td>
+                                                <td>
+                                                    <span className={`badge badge-${apt.status}`}>
+                                                        {apt.status}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div className="mobile-card-list">
+                                {appointments.map(apt => (
+                                    <div key={apt._id} className="mobile-card">
+                                        <div className="mobile-card-header">
+                                            <div className="mobile-card-title">{apt.patientId?.name}</div>
+                                            <span className={`badge badge-${apt.status}`}>
+                                                {apt.status}
+                                            </span>
+                                        </div>
+                                        <div className="mobile-card-details">
+                                            <div className="mobile-detail-item">
+                                                <FiClock className="mobile-detail-icon" />
+                                                <span>{apt.time}</span>
+                                            </div>
+                                            <div className="mobile-detail-item">
+                                                <FiUsers className="mobile-detail-icon" />
+                                                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                                    <span>Dr. {apt.doctorId?.name}</span>
+                                                    <span style={{ fontSize: '0.8rem', color: 'var(--text-light)' }}>{apt.patientId?.contact}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </>
                     )}
                 </div>
             </div>

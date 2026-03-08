@@ -68,22 +68,33 @@ a {
 }
 
 .page-header {
-  background: white;
+  background: var(--primary);
   padding: 20px 32px;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid var(--primary-dark);
   display: flex;
   align-items: center;
   justify-content: space-between;
   position: sticky;
   top: 0;
   z-index: 10;
-  backdrop-filter: blur(10px);
+  color: white;
+  box-shadow: 0 4px 12px rgba(14, 165, 233, 0.15);
 }
 
 .page-header h1 {
   font-size: 1.5rem;
   font-weight: 700;
-  color: var(--text);
+  color: white;
+}
+
+.page-header .mobile-logo-mini {
+  display: none;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-weight: 800;
+  font-size: 0.9rem;
 }
 
 .page-header .user-info {
@@ -92,17 +103,30 @@ a {
   gap: 12px;
 }
 
+.page-header .user-name {
+  color: white;
+  margin: 0;
+  font-weight: 600;
+}
+
+.page-header .user-role {
+  color: rgba(255, 255, 255, 0.85);
+  margin: 0;
+  font-size: 0.85rem;
+}
+
 .page-header .user-avatar {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  background: rgba(255, 255, 255, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
   color: white;
   font-weight: 600;
-  font-size: 0.9rem;
+  font-size: 1rem;
 }
 
 .page-body {
@@ -571,6 +595,48 @@ textarea.form-input {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 16px;
+}
+
+@media (max-width: 600px) {
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+}
+
+.medicine-row-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1.5fr 1fr 40px;
+  gap: 12px;
+  align-items: end;
+}
+
+@media (max-width: 768px) {
+  .medicine-row-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    padding: 16px;
+    background: var(--bg-light);
+    border-radius: 12px;
+    border: 1px solid var(--border-light);
+    margin-bottom: 20px;
+  }
+
+  .medicine-row-grid>div:first-child {
+    grid-column: span 2;
+  }
+
+  .medicine-row-grid .btn-icon {
+    grid-column: span 2;
+    width: 100%;
+    margin-top: 8px;
+    border-color: var(--danger-light);
+    background: #fff;
+  }
+
+  .medicine-grid-labels {
+    display: none !important;
+  }
 }
 
 .mobile-card-list {
@@ -1335,6 +1401,21 @@ textarea.form-input {
   gap: 24px;
 }
 
+@media (max-width: 900px) {
+  .grid-3 {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+
+  .grid-2,
+  .grid-3 {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
 /* Animations */
 @keyframes fadeIn {
   from {
@@ -1443,16 +1524,20 @@ textarea.form-input {
   .page-header {
     height: 60px;
     padding: 0 16px;
-    background: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(12px);
+    background: var(--primary);
     position: sticky;
     top: 0;
     z-index: 80;
-    border-bottom: 1px solid var(--border-light);
+    border-bottom: 1px solid var(--primary-dark);
+  }
+
+  .page-header .mobile-logo-mini {
+    display: block;
   }
 
   .header-left .mobile-menu-btn {
     display: none;
+    color: white;
     /* Hidden because we use Bottom Nav's "Menu" button */
   }
 
