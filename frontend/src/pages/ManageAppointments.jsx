@@ -102,89 +102,161 @@ const ManageAppointments = () => {
                             <p>No appointments match your current filters.</p>
                         </div>
                     ) : (
-                        <div style={{ overflowX: 'auto' }}>
-                            <table className="data-table">
-                                <thead>
-                                    <tr>
-                                        <th>Date & Time</th>
-                                        <th>Patient</th>
-                                        <th>Doctor</th>
-                                        <th>Reason</th>
-                                        <th>Status</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {appointments.map(apt => (
-                                        <tr key={apt._id}>
-                                            <td>
-                                                <div style={{ fontWeight: '600' }}>
-                                                    {new Date(apt.date).toLocaleDateString()}
-                                                </div>
-                                                <div style={{ color: 'var(--primary)', fontWeight: '600', fontSize: '0.85rem' }}>
-                                                    {apt.time}
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div style={{ fontWeight: '500' }}>{apt.patientId?.name}</div>
-                                                <div style={{ fontSize: '0.75rem', color: 'var(--text-light)' }}>
-                                                    {apt.patientId?.contact}
-                                                </div>
-                                            </td>
-                                            <td>Dr. {apt.doctorId?.name}</td>
-                                            <td style={{ maxWidth: '200px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                                                {apt.reason || '-'}
-                                            </td>
-                                            <td>
-                                                <span className={`badge badge-${apt.status}`}>
-                                                    {apt.status}
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <div className="action-buttons">
-                                                    {apt.status === 'pending' && (user.role === 'admin' || user.role === 'receptionist') && (
-                                                        <button
-                                                            className="btn-icon"
-                                                            title="Confirm"
-                                                            style={{ color: 'var(--success)', borderColor: 'var(--success)' }}
-                                                            onClick={() => handleStatusChange(apt._id, 'confirmed')}
-                                                        >
-                                                            <FiCheck />
-                                                        </button>
-                                                    )}
-
-                                                    {apt.status === 'confirmed' && user.role === 'doctor' && (
-                                                        <button
-                                                            className="btn-icon"
-                                                            title="Mark Completed"
-                                                            style={{ color: 'var(--success)', borderColor: 'var(--success)' }}
-                                                            onClick={() => handleStatusChange(apt._id, 'completed')}
-                                                        >
-                                                            <FiCheck />
-                                                        </button>
-                                                    )}
-
-                                                    {['pending', 'confirmed'].includes(apt.status) && (
-                                                        <button
-                                                            className="btn-icon"
-                                                            title="Cancel"
-                                                            style={{ color: 'var(--danger)', borderColor: 'var(--danger)' }}
-                                                            onClick={() => {
-                                                                if (window.confirm('Are you sure you want to cancel this appointment?')) {
-                                                                    handleStatusChange(apt._id, 'cancelled');
-                                                                }
-                                                            }}
-                                                        >
-                                                            <FiX />
-                                                        </button>
-                                                    )}
-                                                </div>
-                                            </td>
+                        <>
+                            {/* Desktop Table View */}
+                            <div className="desktop-only-table" style={{ overflowX: 'auto' }}>
+                                <table className="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Date & Time</th>
+                                            <th>Patient</th>
+                                            <th>Doctor</th>
+                                            <th>Reason</th>
+                                            <th>Status</th>
+                                            <th>Actions</th>
                                         </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
+                                    </thead>
+                                    <tbody>
+                                        {appointments.map(apt => (
+                                            <tr key={apt._id}>
+                                                <td>
+                                                    <div style={{ fontWeight: '600' }}>
+                                                        {new Date(apt.date).toLocaleDateString()}
+                                                    </div>
+                                                    <div style={{ color: 'var(--primary)', fontWeight: '600', fontSize: '0.85rem' }}>
+                                                        {apt.time}
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div style={{ fontWeight: '500' }}>{apt.patientId?.name}</div>
+                                                    <div style={{ fontSize: '0.75rem', color: 'var(--text-light)' }}>
+                                                        {apt.patientId?.contact}
+                                                    </div>
+                                                </td>
+                                                <td>Dr. {apt.doctorId?.name}</td>
+                                                <td style={{ maxWidth: '200px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                                                    {apt.reason || '-'}
+                                                </td>
+                                                <td>
+                                                    <span className={`badge badge-${apt.status}`}>
+                                                        {apt.status}
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <div className="action-buttons">
+                                                        {apt.status === 'pending' && (user.role === 'admin' || user.role === 'receptionist') && (
+                                                            <button
+                                                                className="btn-icon"
+                                                                title="Confirm"
+                                                                style={{ color: 'var(--success)', borderColor: 'var(--success)' }}
+                                                                onClick={() => handleStatusChange(apt._id, 'confirmed')}
+                                                            >
+                                                                <FiCheck />
+                                                            </button>
+                                                        )}
+
+                                                        {apt.status === 'confirmed' && user.role === 'doctor' && (
+                                                            <button
+                                                                className="btn-icon"
+                                                                title="Mark Completed"
+                                                                style={{ color: 'var(--success)', borderColor: 'var(--success)' }}
+                                                                onClick={() => handleStatusChange(apt._id, 'completed')}
+                                                            >
+                                                                <FiCheck />
+                                                            </button>
+                                                        )}
+
+                                                        {['pending', 'confirmed'].includes(apt.status) && (
+                                                            <button
+                                                                className="btn-icon"
+                                                                title="Cancel"
+                                                                style={{ color: 'var(--danger)', borderColor: 'var(--danger)' }}
+                                                                onClick={() => {
+                                                                    if (window.confirm('Are you sure you want to cancel this appointment?')) {
+                                                                        handleStatusChange(apt._id, 'cancelled');
+                                                                    }
+                                                                }}
+                                                            >
+                                                                <FiX />
+                                                            </button>
+                                                        )}
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            {/* Mobile Card View */}
+                            <div className="mobile-card-list">
+                                {appointments.map(apt => (
+                                    <div key={apt._id} className="mobile-card" style={{ borderLeft: `4px solid var(--${apt.status === 'pending' ? 'secondary' : apt.status === 'confirmed' ? 'primary' : apt.status === 'completed' ? 'success' : 'danger'})` }}>
+                                        <div className="mobile-card-header">
+                                            <div className="mobile-card-title">{apt.patientId?.name}</div>
+                                            <span className={`badge badge-${apt.status}`} style={{ fontSize: '0.7rem' }}>
+                                                {apt.status}
+                                            </span>
+                                        </div>
+
+                                        <div className="mobile-card-details">
+                                            <div className="mobile-detail-item">
+                                                <FiCalendar className="mobile-detail-icon" />
+                                                <span style={{ fontWeight: '600', color: 'var(--primary)' }}>
+                                                    {new Date(apt.date).toLocaleDateString()} @ {apt.time}
+                                                </span>
+                                            </div>
+                                            <div className="mobile-detail-item">
+                                                <FiUser className="mobile-detail-icon" />
+                                                <span>Doctor: Dr. {apt.doctorId?.name}</span>
+                                            </div>
+                                            {apt.reason && (
+                                                <div className="mobile-detail-item">
+                                                    <FiFileText className="mobile-detail-icon" />
+                                                    <span>Reason: {apt.reason}</span>
+                                                </div>
+                                            )}
+                                        </div>
+
+                                        <div className="mobile-card-actions">
+                                            {apt.status === 'pending' && (user.role === 'admin' || user.role === 'receptionist') && (
+                                                <button
+                                                    className="btn btn-sm"
+                                                    style={{ flex: 1, background: 'var(--success)', color: 'white' }}
+                                                    onClick={() => handleStatusChange(apt._id, 'confirmed')}
+                                                >
+                                                    <FiCheck /> Confirm
+                                                </button>
+                                            )}
+
+                                            {apt.status === 'confirmed' && user.role === 'doctor' && (
+                                                <button
+                                                    className="btn btn-sm"
+                                                    style={{ flex: 1, background: 'var(--success)', color: 'white' }}
+                                                    onClick={() => handleStatusChange(apt._id, 'completed')}
+                                                >
+                                                    <FiCheck /> Complete
+                                                </button>
+                                            )}
+
+                                            {['pending', 'confirmed'].includes(apt.status) && (
+                                                <button
+                                                    className="btn btn-sm"
+                                                    style={{ flex: 1, background: 'white', border: '1px solid var(--danger)', color: 'var(--danger)' }}
+                                                    onClick={() => {
+                                                        if (window.confirm('Are you sure you want to cancel this appointment?')) {
+                                                            handleStatusChange(apt._id, 'cancelled');
+                                                        }
+                                                    }}
+                                                >
+                                                    <FiX /> Cancel
+                                                </button>
+                                            )}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </>
                     )}
                 </div>
             </div>

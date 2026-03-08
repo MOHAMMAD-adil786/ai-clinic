@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { FiSearch, FiEye, FiDownload, FiFileText } from 'react-icons/fi';
+import { FiSearch, FiEye, FiDownload, FiFileText, FiUser, FiPhone, FiMail, FiClock, FiActivity } from 'react-icons/fi';
 import api from '../api/axios';
 import { useAuth } from '../contexts/AuthContext';
 import { toast } from 'react-hot-toast';
@@ -54,7 +54,7 @@ const ManagePatients = () => {
                     <FiSearch className="search-icon" />
                     <input
                         type="text"
-                        placeholder="Search patients by name, phone, or email..."
+                        placeholder="Search patients..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
@@ -64,7 +64,7 @@ const ManagePatients = () => {
             <div className="card">
                 <div className="card-header">
                     <h3>Patient Directory</h3>
-                    <div className="badge badge-confirmed">{patients.length} Total</div>
+                    <div className="badge badge-confirmed">{filteredPatients.length} Results</div>
                 </div>
                 <div className="card-body" style={{ padding: 0 }}>
                     {loading ? (
@@ -75,69 +75,141 @@ const ManagePatients = () => {
                             <p>Try adjusting your search criteria.</p>
                         </div>
                     ) : (
-                        <div style={{ overflowX: 'auto' }}>
-                            <table className="data-table">
-                                <thead>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Details</th>
-                                        <th>Contact</th>
-                                        <th>Added On</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {filteredPatients.map(patient => (
-                                        <tr key={patient._id}>
-                                            <td style={{ fontWeight: '600' }}>{patient.name}</td>
-                                            <td>
-                                                <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
-                                                    Age: {patient.age} | Gender: <span style={{ textTransform: 'capitalize' }}>{patient.gender}</span>
-                                                    {patient.bloodGroup && ` | Blood: ${patient.bloodGroup}`}
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div>{patient.contact}</div>
-                                                <div style={{ fontSize: '0.75rem', color: 'var(--text-light)' }}>{patient.email}</div>
-                                            </td>
-                                            <td style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
-                                                {new Date(patient.createdAt).toLocaleDateString()}
-                                            </td>
-                                            <td>
-                                                <div className="action-buttons">
-                                                    <button
-                                                        className="btn btn-sm btn-secondary"
-                                                        onClick={() => openPatientHistory(patient)}
-                                                    >
-                                                        <FiEye /> History
-                                                    </button>
-
-                                                    {user.role === 'doctor' && (
-                                                        <>
-                                                            {user.subscriptionPlan === 'pro' && (
-                                                                <button
-                                                                    className="btn btn-sm"
-                                                                    style={{ background: 'var(--secondary)', color: 'white' }}
-                                                                    onClick={() => window.location.href = `/doctor/add-diagnosis/${patient._id}`}
-                                                                >
-                                                                    AI Diagnosis
-                                                                </button>
-                                                            )}
-                                                            <button
-                                                                className="btn btn-sm btn-primary"
-                                                                onClick={() => window.location.href = `/doctor/write-prescription/${patient._id}`}
-                                                            >
-                                                                Rx
-                                                            </button>
-                                                        </>
-                                                    )}
-                                                </div>
-                                            </td>
+                        <>
+                            {/* Desktop Table View */}
+                            <div className="desktop-only-table" style={{ overflowX: 'auto' }}>
+                                <table className="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Details</th>
+                                            <th>Contact</th>
+                                            <th>Added On</th>
+                                            <th>Actions</th>
                                         </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
+                                    </thead>
+                                    <tbody>
+                                        {filteredPatients.map(patient => (
+                                            <tr key={patient._id}>
+                                                <td style={{ fontWeight: '600' }}>{patient.name}</td>
+                                                <td>
+                                                    <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
+                                                        Age: {patient.age} | Gender: <span style={{ textTransform: 'capitalize' }}>{patient.gender}</span>
+                                                        {patient.bloodGroup && ` | Blood: ${patient.bloodGroup}`}
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div>{patient.contact}</div>
+                                                    <div style={{ fontSize: '0.75rem', color: 'var(--text-light)' }}>{patient.email}</div>
+                                                </td>
+                                                <td style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
+                                                    {new Date(patient.createdAt).toLocaleDateString()}
+                                                </td>
+                                                <td>
+                                                    <div className="action-buttons">
+                                                        <button
+                                                            className="btn btn-sm btn-secondary"
+                                                            onClick={() => openPatientHistory(patient)}
+                                                        >
+                                                            <FiEye /> History
+                                                        </button>
+
+                                                        {user.role === 'doctor' && (
+                                                            <>
+                                                                {user.subscriptionPlan === 'pro' && (
+                                                                    <button
+                                                                        className="btn btn-sm"
+                                                                        style={{ background: 'var(--secondary)', color: 'white' }}
+                                                                        onClick={() => window.location.href = `/doctor/add-diagnosis/${patient._id}`}
+                                                                    >
+                                                                        AI Diagnosis
+                                                                    </button>
+                                                                )}
+                                                                <button
+                                                                    className="btn btn-sm btn-primary"
+                                                                    onClick={() => window.location.href = `/doctor/write-prescription/${patient._id}`}
+                                                                >
+                                                                    Rx
+                                                                </button>
+                                                            </>
+                                                        )}
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            {/* Mobile Card View */}
+                            <div className="mobile-card-list">
+                                {filteredPatients.map(patient => (
+                                    <div key={patient._id} className="mobile-card">
+                                        <div className="mobile-card-header">
+                                            <div className="mobile-card-title">{patient.name}</div>
+                                            <div className="badge badge-primary" style={{ fontSize: '0.65rem' }}>ID: {patient._id.slice(-4)}</div>
+                                        </div>
+
+                                        <div className="mobile-card-details">
+                                            <div className="mobile-detail-item">
+                                                <FiUser className="mobile-detail-icon" />
+                                                <span>Age: {patient.age} • {patient.gender} • {patient.bloodGroup || 'N/A'}</span>
+                                            </div>
+                                            <div className="mobile-detail-item">
+                                                <FiPhone className="mobile-detail-icon" />
+                                                <span>{patient.contact}</span>
+                                            </div>
+                                            {patient.email && (
+                                                <div className="mobile-detail-item">
+                                                    <FiMail className="mobile-detail-icon" />
+                                                    <span>{patient.email}</span>
+                                                </div>
+                                            )}
+                                            <div className="mobile-detail-item">
+                                                <FiClock className="mobile-detail-icon" />
+                                                <span>Since: {new Date(patient.createdAt).toLocaleDateString()}</span>
+                                            </div>
+                                        </div>
+
+                                        <div className="mobile-card-actions">
+                                            <button
+                                                className="btn btn-sm btn-secondary"
+                                                style={{ flex: 1 }}
+                                                onClick={() => openPatientHistory(patient)}
+                                            >
+                                                <FiEye /> History
+                                            </button>
+
+                                            {user.role === 'doctor' && (
+                                                <button
+                                                    className="btn btn-sm btn-primary"
+                                                    style={{ flex: 1 }}
+                                                    onClick={() => window.location.href = `/doctor/write-prescription/${patient._id}`}
+                                                >
+                                                    Write Rx
+                                                </button>
+                                            )}
+                                        </div>
+
+                                        {user.role === 'doctor' && user.subscriptionPlan === 'pro' && (
+                                            <button
+                                                className="btn btn-sm"
+                                                style={{
+                                                    width: '100%',
+                                                    marginTop: '8px',
+                                                    background: 'var(--gradient-primary)',
+                                                    color: 'white',
+                                                    border: 'none'
+                                                }}
+                                                onClick={() => window.location.href = `/doctor/add-diagnosis/${patient._id}`}
+                                            >
+                                                <FiActivity style={{ marginRight: '6px' }} /> AI Assesment
+                                            </button>
+                                        )}
+                                    </div>
+                                ))}
+                            </div>
+                        </>
                     )}
                 </div>
             </div>

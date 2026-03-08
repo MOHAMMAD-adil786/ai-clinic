@@ -62,36 +62,36 @@ const AdminDashboard = () => {
                 </div>
             </div>
 
-            <div className="grid-2" style={{ marginBottom: '24px' }}>
-                <div className="card">
+            <div className="grid-2 dashboard-charts-container" style={{ marginBottom: '24px' }}>
+                <div className="card chart-card">
                     <div className="card-header">
-                        <h3>Appointments Overview (Last 6 Months)</h3>
+                        <h3>Appointments Overview</h3>
                     </div>
-                    <div className="card-body" style={{ height: '300px' }}>
+                    <div className="card-body" style={{ height: '280px', padding: '10px' }}>
                         <ResponsiveContainer width="100%" height="100%">
-                            <LineChart data={data.monthlyTrend}>
-                                <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                                <XAxis dataKey="month" />
-                                <YAxis />
-                                <Tooltip />
-                                <Line type="monotone" dataKey="appointments" stroke="#0ea5e9" strokeWidth={3} dot={{ r: 4 }} activeDot={{ r: 6 }} />
+                            <LineChart data={data.monthlyTrend} margin={{ top: 5, right: 10, left: -20, bottom: 0 }}>
+                                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(255,255,255,0.05)" />
+                                <XAxis dataKey="month" tick={{ fontSize: 10 }} axisLine={false} tickLine={false} />
+                                <YAxis tick={{ fontSize: 10 }} axisLine={false} tickLine={false} />
+                                <Tooltip contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)' }} />
+                                <Line type="monotone" dataKey="appointments" stroke="var(--primary)" strokeWidth={3} dot={{ r: 4, fill: 'var(--primary)', strokeWidth: 2, stroke: '#fff' }} activeDot={{ r: 6 }} />
                             </LineChart>
                         </ResponsiveContainer>
                     </div>
                 </div>
 
-                <div className="card">
+                <div className="card chart-card">
                     <div className="card-header">
-                        <h3>Common AI Diagnoses</h3>
+                        <h3>AI Diagnoses</h3>
                     </div>
-                    <div className="card-body" style={{ height: '300px' }}>
+                    <div className="card-body" style={{ height: '280px', padding: '10px' }}>
                         <ResponsiveContainer width="100%" height="100%">
-                            <BarChart data={data.commonDiagnoses} layout="vertical" margin={{ left: 10 }}>
-                                <CartesianGrid strokeDasharray="3 3" horizontal={false} />
-                                <XAxis type="number" />
-                                <YAxis dataKey="name" type="category" width={120} tick={{ fontSize: 12 }} />
-                                <Tooltip />
-                                <Bar dataKey="count" fill="#8b5cf6" radius={[0, 4, 4, 0]}>
+                            <BarChart data={data.commonDiagnoses} layout="vertical" margin={{ top: 5, right: 20, left: -10, bottom: 5 }}>
+                                <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="rgba(255,255,255,0.05)" />
+                                <XAxis type="number" hide />
+                                <YAxis dataKey="name" type="category" width={80} tick={{ fontSize: 10 }} axisLine={false} tickLine={false} />
+                                <Tooltip cursor={{ fill: 'transparent' }} contentStyle={{ borderRadius: '12px', border: 'none' }} />
+                                <Bar dataKey="count" fill="var(--secondary)" radius={[0, 10, 10, 0]} barSize={20}>
                                     {data.commonDiagnoses.map((entry, index) => (
                                         <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                                     ))}

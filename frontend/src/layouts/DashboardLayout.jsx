@@ -54,6 +54,9 @@ const DashboardLayout = ({ children }) => {
     };
 
     const navItems = getNavItems();
+    const mainNavItems = navItems.filter(item =>
+        ['Dashboard', 'Patients', 'Appointments', 'AI Diagnosis', 'Manage Staff'].includes(item.label)
+    ).slice(0, 4);
 
     return (
         <div className={`app-layout ${isSidebarOpen ? 'sidebar-open' : ''}`}>
@@ -69,14 +72,10 @@ const DashboardLayout = ({ children }) => {
                     <div className="logo-icon" style={{ background: 'none', boxShadow: 'none' }}>
                         <img src="/logo.svg" alt="PulseAI Logo" style={{ width: '100%', height: '100%' }} />
                     </div>
-                    <div>
-                        <h2 style={{ fontSize: '1.4rem', letterSpacing: '-0.5px' }}>PulseAI</h2>
-                        <span style={{ color: 'var(--primary-light)', fontWeight: '700' }}>SMART HEALTH</span>
-                    </div>
+                    <span className="logo-text">PulseAI</span>
                 </div>
 
                 <nav className="sidebar-nav">
-                    <div className="nav-section-title">Main Menu</div>
                     {navItems.map((item, index) => {
                         const isActive = location.pathname === item.path ||
                             (item.path !== `/${user?.role}` && location.pathname.startsWith(item.path));
@@ -105,29 +104,28 @@ const DashboardLayout = ({ children }) => {
             {/* Main Content */}
             <main className="main-content">
                 <header className="page-header">
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                    <div className="header-left">
                         <button className="mobile-menu-btn" onClick={toggleSidebar}>
                             <FiMenu />
                         </button>
-                        <h1>
-                            {navItems.find(item =>
-                                location.pathname === item.path ||
-                                (item.path !== `/${user?.role}` && location.pathname.startsWith(item.path))
-                            )?.label || 'Dashboard'}
-                        </h1>
+                        <div className="header-title">
+                            <span className="mobile-logo-mini">PA</span>
+                            <h1>
+                                {navItems.find(item =>
+                                    location.pathname === item.path ||
+                                    (item.path !== `/${user?.role}` && location.pathname.startsWith(item.path))
+                                )?.label || 'Dashboard'}
+                            </h1>
+                        </div>
                     </div>
 
                     <div className="user-info">
-                        <div style={{ textAlign: 'right' }}>
-                            <div style={{ fontSize: '0.88rem', fontWeight: '600', color: 'var(--text)' }}>
-                                {user?.name}
-                            </div>
-                            <div style={{ fontSize: '0.75rem', color: 'var(--text-light)', textTransform: 'capitalize' }}>
-                                {user?.role} {user?.subscriptionPlan === 'pro' && '• Pro'}
-                            </div>
+                        <div className="user-details-desktop">
+                            <p className="user-name">{user?.name}</p>
+                            <p className="user-role">{user?.role} {user?.subscriptionPlan === 'pro' && '• Pro'}</p>
                         </div>
                         <div className="user-avatar">
-                            {user?.name?.charAt(0).toUpperCase() || 'U'}
+                            {user?.name?.charAt(0)}
                         </div>
                     </div>
                 </header>
@@ -135,6 +133,29 @@ const DashboardLayout = ({ children }) => {
                 <div className="page-body">
                     {children}
                 </div>
+
+                {/* Mobile Bottom Navigation */}
+                <nav className="bottom-nav">
+                    {mainNavItems.map((item, index) => {
+                        const isActive = location.pathname === item.path ||
+                            (item.path !== `/${user?.role}` && location.pathname.startsWith(item.path));
+
+                        return (
+                            <Link
+                                key={index}
+                                to={item.path}
+                                className={`bottom-nav-item ${isActive ? 'active' : ''}`}
+                            >
+                                <item.icon className="bottom-nav-icon" />
+                                <span>{item.label === 'AI Diagnosis' ? 'AI Tool' : item.label}</span>
+                            </Link>
+                        );
+                    })}
+                    <button className="bottom-nav-item" onClick={toggleSidebar}>
+                        <FiMenu className="bottom-nav-icon" />
+                        <span>Menu</span>
+                    </button>
+                </nav>
             </main>
         </div>
     );

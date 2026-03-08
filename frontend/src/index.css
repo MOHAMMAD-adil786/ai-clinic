@@ -467,10 +467,60 @@ a {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(15, 23, 42, 0.5);
-  backdrop-filter: blur(4px);
+  background: rgba(15, 23, 42, 0.4);
+  backdrop-filter: blur(8px);
   z-index: 90;
-  animation: fadeIn 0.2s ease;
+  animation: fadeIn 0.3s ease;
+}
+
+/* Bottom Navigation */
+.bottom-nav {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 65px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px);
+  border-top: 1px solid var(--border-light);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0 10px;
+  z-index: 100;
+  box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.03);
+}
+
+.bottom-nav-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  text-decoration: none;
+  color: var(--text-light);
+  font-size: 0.65rem;
+  font-weight: 600;
+  transition: var(--transition);
+  background: none;
+  border: none;
+  padding: 8px 0;
+  border-radius: 12px;
+}
+
+.bottom-nav-item .bottom-nav-icon {
+  font-size: 1.3rem;
+}
+
+.bottom-nav-item.active {
+  color: var(--primary);
+}
+
+.bottom-nav-item:active {
+  transform: scale(0.92);
+  background: var(--primary-light);
 }
 
 /* Form Elements */
@@ -521,6 +571,75 @@ textarea.form-input {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 16px;
+}
+
+.mobile-card-list {
+  display: none;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+}
+
+.mobile-card {
+  background: white;
+  border-radius: 16px;
+  padding: 16px;
+  border: 1px solid var(--border-light);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+}
+
+.mobile-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.mobile-card-title {
+  font-weight: 700;
+  color: var(--text);
+  font-size: 1.1rem;
+}
+
+.mobile-card-details {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.mobile-detail-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.mobile-detail-icon {
+  color: var(--primary);
+  opacity: 0.7;
+}
+
+.mobile-card-actions {
+  display: flex;
+  gap: 8px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-light);
+}
+
+.desktop-only-table {
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .desktop-only-table {
+    display: none;
+  }
+
+  .mobile-card-list {
+    display: flex;
+  }
 }
 
 /* Table */
@@ -1299,7 +1418,7 @@ textarea.form-input {
 
 /* Responsive */
 @media (max-width: 768px) {
-  .mobile-menu-btn {
+  .bottom-nav {
     display: flex;
   }
 
@@ -1307,6 +1426,7 @@ textarea.form-input {
     transform: translateX(-100%);
     box-shadow: none;
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1000;
   }
 
   .sidebar.open {
@@ -1314,22 +1434,62 @@ textarea.form-input {
     box-shadow: 10px 0 30px rgba(0, 0, 0, 0.2);
   }
 
-  .mobile-close {
-    display: flex;
-  }
-
   .main-content {
     margin-left: 0;
+    padding-bottom: 80px;
+    /* Space for bottom nav */
+  }
+
+  .page-header {
+    height: 60px;
+    padding: 0 16px;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(12px);
+    position: sticky;
+    top: 0;
+    z-index: 80;
+    border-bottom: 1px solid var(--border-light);
+  }
+
+  .header-left .mobile-menu-btn {
+    display: none;
+    /* Hidden because we use Bottom Nav's "Menu" button */
+  }
+
+  .header-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .mobile-logo-mini {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background: var(--gradient-primary);
+    color: white;
+    border-radius: 8px;
+    font-weight: 800;
+    font-size: 0.8rem;
+  }
+
+  .user-details-desktop {
+    display: none;
   }
 
   .stats-grid {
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .grid-2,
+  .grid-3 {
+    grid-template-columns: 1fr;
   }
 
   .form-row,
-  .grid-2,
-  .grid-3,
   .plan-cards {
     grid-template-columns: 1fr;
     gap: 16px;
@@ -1346,8 +1506,15 @@ textarea.form-input {
 }
 
 @media (max-width: 480px) {
-  .stats-grid {
-    grid-template-columns: 1fr;
+  .stats-card {
+    padding: 16px;
+  }
+
+  .data-table th:nth-child(3),
+  .data-table td:nth-child(3),
+  .data-table th:nth-child(4),
+  .data-table td:nth-child(4) {
+    display: none;
   }
 
   .page-header h1 {
