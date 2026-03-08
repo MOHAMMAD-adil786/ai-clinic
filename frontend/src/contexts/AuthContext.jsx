@@ -37,11 +37,19 @@ export const AuthProvider = ({ children }) => {
     };
 
     const logout = () => {
+        // Clear all storage specifically
         localStorage.removeItem('token');
         localStorage.removeItem('user');
         localStorage.clear();
+        sessionStorage.clear();
         setUser(null);
-        window.location.href = '/login';
+
+        // Use a timeout to escape the React synthetic event loop. 
+        // This is crucial for iOS Safari WebViews (like WhatsApp in-app browser) 
+        // which sometimes block immediate programmatic redirects after storage clears.
+        setTimeout(() => {
+            window.location.replace('/login');
+        }, 100);
     };
 
     const updateUser = (updatedData) => {
