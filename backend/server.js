@@ -5,13 +5,19 @@ const connectDB = require('./config/db');
 
 dotenv.config();
 
-let dbConnected = false;
-const initDB = async () => {
-    dbConnected = await connectDB();
-};
-initDB();
-
 const app = express();
+
+app.use(async (req, res, next) => {
+    try {
+        await connectDB();
+        next();
+    } catch (error) {
+        if (error.message && error.message.includes('MONGO_URI')) {
+            return res.status(500).json({ message: 'Server Configuration Error: Missing Vercel Environment Variables. Please set MONGO_URI and JWT_SECRET in your Vercel Dashboard.' });
+        }
+        res.status(503).json({ message: 'Database connection failed during request', error: error.message });
+    }
+});
 
 app.use(cors());
 app.use(express.json());
@@ -28,9 +34,9 @@ app.use('/api/analytics', require('./routes/analytics'));
 // Health check
 app.get('/api/health', (req, res) => {
     res.json({
-        status: dbConnected ? 'OK' : 'ERROR',
-        database: dbConnected ? 'Connected' : 'Disconnected',
-        message: dbConnected ? 'AI Clinic API is fully functional' : 'AI Clinic API is running but database is unreachable'
+        status: 'OK',
+        database: 'Connected',
+        message: 'AI Clinic API is fully functional and Database is connected'
     });
 });
 
