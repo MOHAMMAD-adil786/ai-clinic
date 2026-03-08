@@ -1,0 +1,22 @@
+<svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0ea5e9" />
+      <stop offset="100%" stop-color="#06b6d4" />
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <blur stdDeviation="2" />
+    </filter>
+  </defs>
+  
+  <!-- AI/Brain Shape -->
+  <path d="M50 20C35 20 22 32 22 47C22 62 35 74 50 74C65 74 78 62 78 47C78 32 65 20 50 20ZM50 68C38.4 68 28 58.6 28 47C28 35.4 38.4 26 50 26C61.6 26 72 35.4 72 47C72 58.6 61.6 68 50 68Z" fill="url(#logoGradient)" />
+  
+  <!-- Pulse Line -->
+  <path d="M30 50H42L47 35L53 65L58 50H70" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+  
+  <!-- AI Core Dot -->
+  <circle cx="50" cy="50" r="4" fill="white" filter="url(#glow)">
+    <animate attributeName="r" values="3;5;3" dur="2s" repeatCount="indefinite" />
+  </circle>
+</svg>
