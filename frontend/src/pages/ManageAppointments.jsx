@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { FiSearch, FiCheck, FiX, FiCalendar } from 'react-icons/fi';
+import { FiSearch, FiCheck, FiX, FiCalendar, FiUser, FiFileText } from 'react-icons/fi';
 import api from '../api/axios';
 import { useAuth } from '../contexts/AuthContext';
 import { toast } from 'react-hot-toast';
