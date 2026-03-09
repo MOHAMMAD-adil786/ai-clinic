@@ -1536,9 +1536,8 @@ textarea.form-input {
   }
 
   .header-left .mobile-menu-btn {
-    display: none;
+    display: flex;
     color: white;
-    /* Hidden because we use Bottom Nav's "Menu" button */
   }
 
   .header-title {

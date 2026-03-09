@@ -151,9 +151,9 @@ const DashboardLayout = ({ children }) => {
                             </Link>
                         );
                     })}
-                    <button className="bottom-nav-item" onClick={toggleSidebar}>
-                        <FiMenu className="bottom-nav-icon" />
-                        <span>Menu</span>
+                    <button className="bottom-nav-item" onClick={() => { logout(); closeSidebar(); }}>
+                        <FiLogOut className="bottom-nav-icon" />
+                        <span>Logout</span>
                     </button>
                 </nav>
             </main>
