@@ -542,6 +542,10 @@ a {
   color: var(--primary);
 }
 
+.bottom-nav-item.logout-item {
+  color: var(--danger);
+}
+
 .bottom-nav-item:active {
   transform: scale(0.92);
   background: var(--primary-light);
