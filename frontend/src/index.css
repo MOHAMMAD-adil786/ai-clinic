@@ -1535,15 +1535,28 @@ textarea.form-input {
     display: block;
   }
 
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
   .header-left .mobile-menu-btn {
     display: flex;
     color: white;
+    padding: 0;
+    margin: 0;
   }
 
   .header-title {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
+  }
+
+  .page-header h1 {
+    margin: 0;
+    line-height: 1;
   }
 
   .mobile-logo-mini {

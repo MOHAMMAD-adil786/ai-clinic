@@ -109,7 +109,6 @@ const DashboardLayout = ({ children }) => {
                             <FiMenu />
                         </button>
                         <div className="header-title">
-                            <span className="mobile-logo-mini">PA</span>
                             <h1>
                                 {navItems.find(item =>
                                     location.pathname === item.path ||
